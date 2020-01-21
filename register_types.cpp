@@ -10,7 +10,7 @@
 
 #include <core/class_db.h>
 
-void register_gameplay_abilities_types() {
+void register_godot_abilities_types() {
 	/** Nodes */
 	ClassDB::register_class<GameplayAbilitySystem>();
 	ClassDB::register_class<GameplayEffectNode>();
@@ -38,5 +38,5 @@ void register_gameplay_abilities_types() {
 	ClassDB::register_class<GameplayEvent>();
 }
 
-void unregister_gameplay_abilities_types() {
+void unregister_godot_abilities_types() {
 }

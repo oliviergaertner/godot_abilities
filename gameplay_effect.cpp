@@ -158,8 +158,8 @@ Ref<GameplayEffect> ConditionalGameplayEffect::get_effect() const {
 }
 
 void ConditionalGameplayEffect::set_required_source_tags(const Ref<GameplayTagContainer> &) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> ConditionalGameplayEffect::get_required_source_tags() const {
@@ -196,8 +196,7 @@ double GameplayEffectCue::get_maximum_level() const {
 }
 
 void GameplayEffectCue::set_cue_tags(const Ref<GameplayTagContainer> &) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffectCue::get_cue_tags() const {

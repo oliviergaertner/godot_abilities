@@ -1,7 +1,7 @@
 Import('env')
 
-target_name = 'gameplay_abilities'
-module_root = '#modules/gameplay_abilities/'
+target_name = 'godot_abilities'
+module_root = '#modules/godot_abilities/'
 include_dirs = [module_root, '#thirdparty/catch2']
 
 includes = [
