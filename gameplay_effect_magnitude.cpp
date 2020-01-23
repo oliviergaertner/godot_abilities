@@ -151,8 +151,7 @@ AttributeCalculation::Type AttributeBasedFloat::get_attribute_calculation() cons
 }
 
 void AttributeBasedFloat::set_source_tag_filter(const Ref<GameplayTagContainer> &) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> AttributeBasedFloat::get_source_tag_filter() const {
@@ -160,8 +159,7 @@ Ref<GameplayTagContainer> AttributeBasedFloat::get_source_tag_filter() const {
 }
 
 void AttributeBasedFloat::set_target_tag_filter(const Ref<GameplayTagContainer> &) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> AttributeBasedFloat::get_target_tag_filter() const {

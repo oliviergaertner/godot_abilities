@@ -11,8 +11,8 @@
 #include <scene/main/scene_tree.h>
 #include <scene/main/viewport.h>
 
-#define CATCH_CONFIG_RUNNER
-#include <catch.hpp>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <thirdparty/doctest/doctest/doctest.h>
 
 namespace {
 constexpr auto delta = 6.0f;
@@ -214,18 +214,18 @@ public:
 		set_cooldown_effect(cooldown_effect);
 
 		// Set blocked source tags.
-		set_source_blocked_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> tags) {
-			tags->append("attack.blocked");
+		set_source_blocked_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> intags) {
+			intags->append("attack.blocked");
 		}));
 
 		// Set required source tags.
-		set_source_required_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> tags) {
-			tags->append("equipment.weapon");
+		set_source_required_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> intags) {
+			intags->append("equipment.weapon");
 		}));
 
 		// Set blocked target tags.
-		set_target_blocked_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> tags) {
-			tags->append("attack.immune");
+		set_target_blocked_tags(make_reference<GameplayTagContainer>([this](Ref<GameplayTagContainer> intags) {
+			intags->append("attack.immune");
 		}));
 	}
 
@@ -473,8 +473,8 @@ SCENARIO("check ability activation on single target with wait") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *ability) {
-			ability->wait_for_event = true;
+		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *inAbility) {
+			inAbility->wait_for_event = true;
 		});
 		source->add_ability(ability.get());
 
@@ -490,8 +490,8 @@ SCENARIO("check ability activation on single target with wait") {
 		}
 
 		WHEN("ability activates on valid target and event is fired") {
-			auto event = make_reference<GameplayEvent>([&](Ref<GameplayEvent> event) {
-				event->set_event_tag(ability->event_tag);
+			auto event = make_reference<GameplayEvent>([&](Ref<GameplayEvent> inEvent) {
+				inEvent->set_event_tag(ability->event_tag);
 			});
 			/** Activate ability and wait for event. */
 			source->activate_ability(ability.get());
@@ -510,8 +510,8 @@ SCENARIO("check ability activation on single target with wait") {
 		}
 
 		WHEN("ability activates on valid target, event is fired and enough time passed") {
-			auto event = make_reference<GameplayEvent>([&](Ref<GameplayEvent> event) {
-				event->set_event_tag(ability->event_tag);
+			auto event = make_reference<GameplayEvent>([&](Ref<GameplayEvent> inEvent) {
+				inEvent->set_event_tag(ability->event_tag);
 			});
 			/** Activate ability and wait for event. */
 			source->activate_ability(ability.get());
@@ -779,8 +779,8 @@ SCENARIO("check ability interruption while executing") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *ability) {
-			ability->wait_for_event = true;
+		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *inAbility) {
+			inAbility->wait_for_event = true;
 		});
 		source->add_ability(ability.get());
 
@@ -822,8 +822,8 @@ SCENARIO("check ability interruption while executing") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *ability) {
-			ability->wait_for_delay = true;
+		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *inAbility) {
+			inAbility->wait_for_delay = true;
 		});
 		source->add_ability(ability.get());
 
@@ -868,10 +868,10 @@ SCENARIO("check ability cost") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *ability) {
-			Ref<GameplayEffectModifier> modifier = ability->get_cost_effect()->get_modifiers().front();
-			modifier->set_modifier_magnitude(ability->const_200);
-			ability->wait_for_delay = true;
+		auto ability = make_gameplay_ptr<AttackAbility>([](AttackAbility *inAbility) {
+			Ref<GameplayEffectModifier> modifier = inAbility->get_cost_effect()->get_modifiers().front();
+			modifier->set_modifier_magnitude(inAbility->const_200);
+			inAbility->wait_for_delay = true;
 		});
 		source->add_ability(ability.get());
 
@@ -1040,8 +1040,8 @@ SCENARIO("check if effect target tags get applied") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *ability) {
-			ability->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *inAbility) {
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
 				effect->set_duration_type(DurationType::Infinite);
 				effect->get_target_tags()->append("test");
 			}));
@@ -1084,8 +1084,8 @@ SCENARIO("check if effects with removal tags get removed") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *ability) {
-			ability->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *inAbility) {
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
 				effect->set_duration_type(DurationType::Infinite);
 				effect->get_remove_effect_tags()->append("test.effect");
 				effect->get_target_tags()->append("test.target2");
@@ -1191,8 +1191,8 @@ SCENARIO("check ongoing tags are used for continuous effect execution") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *ability) {
-			ability->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *inAbility) {
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
 				Array modifiers;
 				modifiers.append(make_reference<GameplayEffectModifier>([](Ref<GameplayEffectModifier> modifier) {
 					modifier->set_attribute(health);
@@ -1267,18 +1267,18 @@ SCENARIO("scalable float magnitude should apply according to curve and level") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *ability) {
-			ability->set_max_level(5);
-			ability->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *inAbility) {
+			inAbility->set_max_level(5);
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
 				Array modifiers;
 				modifiers.append(make_reference<GameplayEffectModifier>([](Ref<GameplayEffectModifier> modifier) {
 					modifier->set_attribute(health);
 					modifier->set_modifier_operation(ModifierOperation::Subtract);
 					modifier->set_modifier_magnitude(make_reference<ScalableFloat>([](Ref<ScalableFloat> magnitude) {
-						auto curve = make_reference<Curve>([](Ref<Curve> curve) {
-							curve->add_point(Vector2(0, 0), 0, 1);
-							curve->add_point(Vector2(1, 1), 1, 0);
-							curve->bake();
+						auto curve = make_reference<Curve>([](Ref<Curve> inCurve) {
+							inCurve->add_point(Vector2(0, 0), 0, 1);
+							inCurve->add_point(Vector2(1, 1), 1, 0);
+							inCurve->bake();
 						});
 						magnitude->set_value(50);
 						magnitude->set_curve(curve);
@@ -1370,22 +1370,22 @@ SCENARIO("attribute based magnitude should change according to attribute") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *ability) {
-			ability->set_max_level(5);
-			ability->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([](ApplyEffectAbility *inAbility) {
+			inAbility->set_max_level(5);
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
 				Array modifiers;
 				modifiers.append(make_reference<GameplayEffectModifier>([](Ref<GameplayEffectModifier> modifier) {
 					modifier->set_attribute(health);
 					modifier->set_modifier_operation(ModifierOperation::Subtract);
-					modifier->set_modifier_magnitude(make_reference<AttributeBasedFloat>([](Ref<AttributeBasedFloat> magnitude) {
-						magnitude->set_attribute_origin(AttributeOrigin::Source);
-						magnitude->set_attribute_calculation(AttributeCalculation::CurrentValue);
-						magnitude->set_backing_attribute(attack);
-						magnitude->set_coefficient(make_reference<ScalableFloat>([](Ref<ScalableFloat> magnitude) {
-							auto curve = make_reference<Curve>([](Ref<Curve> curve) {
-								curve->add_point(Vector2(0, 0), 0, 1);
-								curve->add_point(Vector2(1, 1), 1, 0);
-								curve->bake();
+					modifier->set_modifier_magnitude(make_reference<AttributeBasedFloat>([](Ref<AttributeBasedFloat> inMagnitude) {
+						inMagnitude->set_attribute_origin(AttributeOrigin::Source);
+						inMagnitude->set_attribute_calculation(AttributeCalculation::CurrentValue);
+						inMagnitude->set_backing_attribute(attack);
+						inMagnitude->set_coefficient(make_reference<ScalableFloat>([](Ref<ScalableFloat> magnitude) {
+							auto curve = make_reference<Curve>([](Ref<Curve> inCurve) {
+								inCurve->add_point(Vector2(0, 0), 0, 1);
+								inCurve->add_point(Vector2(1, 1), 1, 0);
+								inCurve->bake();
 							});
 							magnitude->set_value(0.5);
 							magnitude->set_curve(curve);
@@ -1478,9 +1478,9 @@ SCENARIO("custom execution magnitude should do fancy stuff") {
 		root->add_child(target.get());
 
 		// Ability
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *ability) {
-			ability->set_max_level(5);
-			ability->target_effects.push_back(make_reference<GameplayEffect>([&](Ref<GameplayEffect> effect) {
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *inAbility) {
+			inAbility->set_max_level(5);
+			inAbility->target_effects.push_back(make_reference<GameplayEffect>([&](Ref<GameplayEffect> effect) {
 				Array modifiers;
 				modifiers.append(make_reference<GameplayEffectModifier>([&](Ref<GameplayEffectModifier> modifier) {
 					modifier->set_attribute(health);
@@ -1559,7 +1559,7 @@ SCENARIO("custom execution magnitude should do fancy stuff") {
 
 #pragma region effect stacking
 
-SCENARIO("stack aggregation", "[stacking]") {
+SCENARIO("stack aggregation") {
 	auto scene_tree = make_gameplay_ptr<TestSceneTree>();
 
 	GIVEN("effect which aggregates on source") {
@@ -1585,15 +1585,15 @@ SCENARIO("stack aggregation", "[stacking]") {
 		root->add_child(target.get());
 
 		// Ability
-		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
-			effect->set_effect_name("test.effect");
-			effect->set_duration_type(DurationType::Infinite);
-			effect->set_stacking_type(StackingType::AggregateOnSource);
-			effect->set_maximum_stacks(2);
+		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> inEffect) {
+			inEffect->set_effect_name("test.effect");
+			inEffect->set_duration_type(DurationType::Infinite);
+			inEffect->set_stacking_type(StackingType::AggregateOnSource);
+			inEffect->set_maximum_stacks(2);
 		});
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *ability) {
-			ability->set_ability_name("test.ability");
-			ability->target_effects.push_back(effect);
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *inAbility) {
+			inAbility->set_ability_name("test.ability");
+			inAbility->target_effects.push_back(effect);
 		});
 		source->add_ability(ability.get());
 
@@ -1634,15 +1634,15 @@ SCENARIO("stack aggregation", "[stacking]") {
 		root->add_child(target.get());
 
 		// Ability
-		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
-			effect->set_effect_name("test.effect");
-			effect->set_duration_type(DurationType::Infinite);
-			effect->set_stacking_type(StackingType::AggregateOnTarget);
-			effect->set_maximum_stacks(2);
+		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> inEffect) {
+			inEffect->set_effect_name("test.effect");
+			inEffect->set_duration_type(DurationType::Infinite);
+			inEffect->set_stacking_type(StackingType::AggregateOnTarget);
+			inEffect->set_maximum_stacks(2);
 		});
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *ability) {
-			ability->set_ability_name("test.ability");
-			ability->target_effects.push_back(effect);
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *inAbility) {
+			inAbility->set_ability_name("test.ability");
+			inAbility->target_effects.push_back(effect);
 		});
 		source->add_ability(ability.get());
 
@@ -1683,11 +1683,11 @@ SCENARIO("stack aggregation", "[stacking]") {
 		root->add_child(target.get());
 
 		// Ability
-		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> effect) {
-			effect->set_effect_name("test_effect");
-			effect->get_effect_tags()->append("test.effect");
-			effect->set_duration_type(DurationType::Infinite);
-			effect->set_stacking_type(StackingType::AggregateOnSource);
+		auto effect = make_reference<GameplayEffect>([](Ref<GameplayEffect> inEffect) {
+			inEffect->set_effect_name("test_effect");
+			inEffect->get_effect_tags()->append("test.effect");
+			inEffect->set_duration_type(DurationType::Infinite);
+			inEffect->set_stacking_type(StackingType::AggregateOnSource);
 
 			Array overflow;
 			overflow.append(make_reference<GameplayEffect>([](Ref<GameplayEffect> overflow_effect) {
@@ -1696,11 +1696,11 @@ SCENARIO("stack aggregation", "[stacking]") {
 				overflow_effect->get_target_tags()->append("overflow");
 				overflow_effect->set_duration_type(DurationType::Infinite);
 			}));
-			effect->set_overflow_effects(overflow);
+			inEffect->set_overflow_effects(overflow);
 		});
-		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *ability) {
-			ability->set_ability_name("test.ability");
-			ability->target_effects.push_back(effect);
+		auto ability = make_gameplay_ptr<ApplyEffectAbility>([&](ApplyEffectAbility *inAbility) {
+			inAbility->set_ability_name("test.ability");
+			inAbility->target_effects.push_back(effect);
 		});
 		source->add_ability(ability.get());
 
@@ -1724,17 +1724,17 @@ SCENARIO("stack aggregation", "[stacking]") {
 #pragma endregion
 
 namespace TestGameplayAbilities {
-MainLoop *test() {
-	try {
-		Catch::Session().run();
-	} catch (std::exception &e) {
-		OS::get_singleton()->printerr("%s\n", e.what());
-	}
+// MainLoop *test() {
+// 	try {
+// 		Catch::Session().run();
+// 	} catch (std::exception &e) {
+// 		OS::get_singleton()->printerr("%s\n", e.what());
+// 	}
 
-	OS::get_singleton()->print("Press enter to continue ...");
-#ifdef DEBUG_ENABLED
-	(void)getchar();
-#endif
-	return nullptr;
-}
+// 	OS::get_singleton()->print("Press enter to continue ...");
+// #ifdef DEBUG_ENABLED
+// 	(void)getchar();
+// #endif
+// 	return nullptr;
+// }
 } // namespace TestGameplayAbilities

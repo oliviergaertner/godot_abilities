@@ -517,7 +517,7 @@ void GameplayAbility::process_wait(WaitType::Type process_type, const Variant &d
 		} break;
 		case WaitType::ActionPressed: {
 			auto input = static_cast<Ref<InputEvent> >(data);
-			auto input_action = static_cast<StringName>(wait_handle.data);
+			auto input_action = wait_handle.data.operator StringName();
 
 			if (input->is_action_pressed(input_action)) {
 				call_deferred(_on_wait_completed, wait_handle.type, input_action);
@@ -526,7 +526,7 @@ void GameplayAbility::process_wait(WaitType::Type process_type, const Variant &d
 		} break;
 		case WaitType::ActionReleased: {
 			auto input = static_cast<Ref<InputEvent> >(data);
-			auto input_action = static_cast<StringName>(wait_handle.data);
+			auto input_action = wait_handle.data.operator StringName();
 
 			if (input->is_action_released(input_action)) {
 				call_deferred(_on_wait_completed, wait_handle.type, input_action);
@@ -535,8 +535,8 @@ void GameplayAbility::process_wait(WaitType::Type process_type, const Variant &d
 		} break;
 		case WaitType::AttributeChanged:
 		case WaitType::BaseAttributeChanged: {
-			auto attribute = static_cast<StringName>(data);
-			auto wait_attribute = static_cast<StringName>(wait_handle.data);
+			auto attribute = data.operator StringName();
+			auto wait_attribute = wait_handle.data.operator StringName();
 
 			if (wait_attribute == attribute) {
 				call_deferred(_on_wait_completed, wait_handle.type, attribute);

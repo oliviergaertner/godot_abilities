@@ -365,8 +365,7 @@ const Array &GameplayEffect::get_cues() const {
 }
 
 void GameplayEffect::set_effect_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_effect_tags() const {
@@ -374,8 +373,7 @@ Ref<GameplayTagContainer> GameplayEffect::get_effect_tags() const {
 }
 
 void GameplayEffect::set_target_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_target_tags() const {
@@ -383,8 +381,7 @@ Ref<GameplayTagContainer> GameplayEffect::get_target_tags() const {
 }
 
 void GameplayEffect::set_ongoing_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_ongoing_tags() const {
@@ -392,8 +389,7 @@ Ref<GameplayTagContainer> GameplayEffect::get_ongoing_tags() const {
 }
 
 void GameplayEffect::set_remove_effect_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_remove_effect_tags() const {
@@ -401,8 +397,7 @@ Ref<GameplayTagContainer> GameplayEffect::get_remove_effect_tags() const {
 }
 
 void GameplayEffect::set_application_immunity_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_application_immunity_tags() const {
@@ -410,8 +405,7 @@ Ref<GameplayTagContainer> GameplayEffect::get_application_immunity_tags() const 
 }
 
 void GameplayEffect::set_cancel_ability_tags(const Ref<GameplayTagContainer> &value) {
-	ERR_EXPLAIN("GameplayTagContainer are readonly properties.");
-	ERR_FAIL();
+	ERR_FAIL_MSG("GameplayTagContainer are readonly properties.");
 }
 
 Ref<GameplayTagContainer> GameplayEffect::get_cancel_ability_tags() const {
