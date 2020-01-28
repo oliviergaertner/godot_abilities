@@ -36,7 +36,9 @@ void register_godot_abilities_types() {
 	ClassDB::register_class<GameplayAttributeSet>();
 	ClassDB::register_class<GameplayAbilityTriggerData>();
 	ClassDB::register_class<GameplayEvent>();
+	ClassDB::register_class<GameplayEffectMagnitude>();
+	ClassDB::register_class<GameplayResource>();
+	ClassDB::register_class<GameplayNode>();
 }
-
 void unregister_godot_abilities_types() {
 }
