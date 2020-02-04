@@ -1091,7 +1091,7 @@ double GameplayAbilitySystem::execute_magnitude(double magnitude, double current
 }
 
 void GameplayAbilitySystem::_bind_methods() {
-	// ClassDB::bind_method(D_METHOD("set_event_tag", "value"), &GameplayEvent::set_event_tag);
+	ClassDB::bind_method(D_METHOD("add_ability", "value"), &GameplayAbilitySystem::add_ability);
 }
 
 std::random_device GameplayAbilitySystem::rdevice;
