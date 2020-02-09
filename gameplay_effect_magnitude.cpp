@@ -211,7 +211,7 @@ double CustomCalculatedFloat::calculate_magnitude(const Node *source, const Node
 
 		return coefficient_magnitude * (pre_addition_magnitude + custom_magnitude) + post_addition_magnitude;
 	} else {
-		WARN_PRINTS("Could not instantiate custom magnitude calculation script: " + custom_calculation_script->get_path());
+		WARN_PRINT("Could not instantiate custom magnitude calculation script: " + custom_calculation_script->get_path());
 	}
 
 	return 0.0;

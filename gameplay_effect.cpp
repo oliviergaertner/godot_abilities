@@ -80,7 +80,7 @@ Ref<GameplayEffectCustomExecutionResult> GameplayEffectCustomExecution::execute(
 	if (script.is_valid()) {
 		return script->call("_execute", source, target, effect, level, normalised_level);
 	} else {
-		WARN_PRINTS("Could not instantiate custom effect execution script: " + execution_script->get_path());
+		WARN_PRINT("Could not instantiate custom effect execution script: " + execution_script->get_path());
 	}
 
 	return {};
@@ -122,7 +122,7 @@ bool GameplayEffectCustomApplicationRequirement::execute(const Node *source, con
 	if (script.is_valid()) {
 		return script->call("_execute", source, target, effect, level, normalised_level);
 	} else {
-		WARN_PRINTS("Could not instantiate custom effect application requirement script: " + requirement_script->get_path());
+		WARN_PRINT("Could not instantiate custom effect application requirement script: " + requirement_script->get_path());
 	}
 
 	return true;
