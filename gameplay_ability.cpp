@@ -4,6 +4,8 @@
 #include "gameplay_effect_magnitude.h"
 #include "gameplay_tags.h"
 
+#include "core/engine.h"
+
 #include <core/os/input.h>
 #include <core/os/input_event.h>
 #include <scene/animation/animation_player.h>
@@ -629,6 +631,13 @@ void GameplayAbility::_notification(int notification) {
 	GameplayNode::_notification(notification);
 
 	switch (notification) {
+		case NOTIFICATION_ENTER_TREE:
+			if (!Engine::get_singleton()->is_editor_hint()) {
+				set_process_internal(true);
+				set_physics_process_internal(true);
+			}
+			break;
+		
 		case NOTIFICATION_INTERNAL_PROCESS: {
 			if (!is_queued_for_deletion() && should_ability_process) {
 				auto delta = get_process_delta_time();
@@ -640,6 +649,13 @@ void GameplayAbility::_notification(int notification) {
 				ability_input();
 			}
 		} break;
+
+		case NOTIFICATION_EXIT_TREE:
+			if (!Engine::get_singleton()->is_editor_hint()) {
+				set_process_internal(false);
+				set_physics_process_internal(false);
+			}
+			break;
 		default: {
 		} break;
 	}
@@ -686,6 +702,7 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("ability_input"), &GameplayAbility::ability_input);
 	ClassDB::bind_method(D_METHOD("set_ability_process", "value"), &GameplayAbility::set_ability_process);
 	ClassDB::bind_method(D_METHOD("set_ability_input", "value"), &GameplayAbility::set_ability_input);
+	ClassDB::bind_method(D_METHOD("set_input_action", "value"), &GameplayAbility::set_input_action);
 
 	/** Properties */
 }
