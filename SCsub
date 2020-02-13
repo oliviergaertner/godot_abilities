@@ -40,7 +40,10 @@ module_env = env.Clone()
 # We don't want godot's dependencies to be injected into our shared library.
 module_env.Append(CPPPATH=include_dirs)
 module_env['LIBS'] = []
-module_env.Append(CXXFLAGS=['-std=c++14','-Wno-unknown-pragmas']) # Flags for C++ code only
+if env.msvc:
+    module_env.Append(CXXFLAGS=['-std=c++14']) # Flags for C++ code only
+else:
+    module_env.Append(CXXFLAGS=['-std=c++14','-Wno-unknown-pragmas']) # Flags for C++ code only
 
 # Now define the shared library. Note that by default it would be built
 # into the module's folder, however it's better to output it into `bin`
