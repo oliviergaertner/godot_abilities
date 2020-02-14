@@ -232,6 +232,7 @@ public:
 	/** Filters all targets on which this ability can be activated. */
 	Array filter_targets();
 
+	GameplayAbilitySystem* get_source() { return source; }
 protected:
 	void _notification(int notification);
 

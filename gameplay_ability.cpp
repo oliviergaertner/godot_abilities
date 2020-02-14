@@ -703,6 +703,7 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_ability_process", "value"), &GameplayAbility::set_ability_process);
 	ClassDB::bind_method(D_METHOD("set_ability_input", "value"), &GameplayAbility::set_ability_input);
 	ClassDB::bind_method(D_METHOD("set_input_action", "value"), &GameplayAbility::set_input_action);
-
+	ClassDB::bind_method(D_METHOD("get_source"), &GameplayAbility::get_source);
+	ClassDB::bind_method(D_METHOD("end_ability"), &GameplayAbility::end_ability);
 	/** Properties */
 }
