@@ -2,9 +2,9 @@
 Import('env')
 Import('env_modules')
 
-env_vs = env_modules.Clone()
+module_env = env_modules.Clone()
 
-env_vs.add_source_files(env.modules_sources, "*.cpp")
+module_env.add_source_files(env.modules_sources, "*.cpp")
 
 if not env.msvc:
     module_env.Append(CXXFLAGS=['-std=c++14','-Wno-unknown-pragmas']) # Flags for C++ code only
