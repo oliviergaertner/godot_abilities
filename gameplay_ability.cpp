@@ -135,6 +135,13 @@ bool GameplayAbility::can_activate_ability() {
 		return false;
 	}
 
+	if (has_method(_can_activate_ability))
+	{
+		if(static_cast<bool>(call(_can_activate_ability, this)) == false)
+		{
+			return false;
+		}
+	}
 	// Check source tags.
 	auto source_tags = source->get_active_tags();
 	if (!check_tag_requirement(source_tags, source_required_tags, source_blocked_tags)) {
