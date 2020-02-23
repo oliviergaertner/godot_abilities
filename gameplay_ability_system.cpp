@@ -730,12 +730,18 @@ bool GameplayAbilitySystem::can_apply_effect(Node *source, const Ref<GameplayEff
 	return std::all_of(begin(modifiers), end(modifiers), [&](Ref<GameplayEffectModifier> modifier) {
 		auto attribute_name = modifier->get_attribute();
 		ERR_FAIL_COND_V(!attributes->has_attribute(attribute_name), false);
+		Ref<GameplayEffectMagnitude> effectMagnitude = modifier->get_modifier_magnitude();
+		if(effectMagnitude.is_valid())
+		{
+			auto magnitude = effectMagnitude->calculate_magnitude(source, this, effect, level, normalised_level);
+			auto attribute = attributes->get_attribute_data(attribute_name);
+			auto value = attribute->get_current_value();
 
-		auto magnitude = modifier->get_modifier_magnitude()->calculate_magnitude(source, this, effect, level, normalised_level);
-		auto attribute = attributes->get_attribute_data(attribute_name);
-		auto value = attribute->get_current_value();
+			return execute_magnitude(magnitude, value, modifier->get_modifier_operation()) >= 0;
+		}
 
-		return execute_magnitude(magnitude, value, modifier->get_modifier_operation()) >= 0;
+		return false;
+		
 	});
 }
 
@@ -1092,6 +1098,9 @@ double GameplayAbilitySystem::execute_magnitude(double magnitude, double current
 
 void GameplayAbilitySystem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_ability", "value"), &GameplayAbilitySystem::add_ability);
+	ClassDB::bind_method(D_METHOD("set_attribute_set", "value"), &GameplayAbilitySystem::set_attribute_set);
+	//Node *node, const Ref<GameplayEffect> &effect, int64_t stacks /*= 1*/, int64_t level /*= 1*/, double normalised_level /*= 1*/
+	ClassDB::bind_method(D_METHOD("apply_effect", "source", "effect", "stacks", "level","normalizedlevel"), &GameplayAbilitySystem::apply_effect);
 }
 
 std::random_device GameplayAbilitySystem::rdevice;
