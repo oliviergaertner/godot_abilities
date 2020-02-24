@@ -712,5 +712,25 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_input_action", "value"), &GameplayAbility::set_input_action);
 	ClassDB::bind_method(D_METHOD("get_source"), &GameplayAbility::get_source);
 	ClassDB::bind_method(D_METHOD("end_ability"), &GameplayAbility::end_ability);
+	ClassDB::bind_method(D_METHOD("set_ability_tags", "value"), &GameplayAbility::set_ability_tags);
+	ClassDB::bind_method(D_METHOD("get_ability_tags"), &GameplayAbility::get_ability_tags);
+	
 	/** Properties */
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "AbilityTags"), "set_ability_tags", "get_ability_tags");
+
+	
+	// /** Cancels active abilities with  any of these tags while this one is active. */
+	// Ref<GameplayTagContainer> cancel_abilities_tags = make_reference<GameplayTagContainer>();
+	// /** Blocks activation of abilities with any of these tags while this one is active. */
+	// Ref<GameplayTagContainer> block_abilities_tags = make_reference<GameplayTagContainer>();
+	// /** The owner of this ability will receive these tags while it is activated. */
+	// Ref<GameplayTagContainer> activation_granted_tags = make_reference<GameplayTagContainer>();
+	// /** Ability can only activate if source has all of these tags. */
+	// Ref<GameplayTagContainer> source_required_tags = make_reference<GameplayTagContainer>();
+	// /** Ability activation is blocked if source has any of these tags. */
+	// Ref<GameplayTagContainer> source_blocked_tags = make_reference<GameplayTagContainer>();
+	// /** Ability can only inflict if target has all of these tags. */
+	// Ref<GameplayTagContainer> target_required_tags = make_reference<GameplayTagContainer>();
+	// /** Ability infliction is blocked if target has any of these tags. */
+	// Ref<GameplayTagContainer> target_blocked_tags = make_reference<GameplayTagContainer>();
 }
