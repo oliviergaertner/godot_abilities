@@ -448,6 +448,14 @@ Ref<GameplayTagContainer> GameplayAbility::get_target_blocked_tags() const {
 	return target_blocked_tags;
 }
 
+void GameplayAbility::set_activation_granted_tags(const Ref<GameplayTagContainer> &value) {
+	activation_granted_tags = value;
+}
+
+Ref<GameplayTagContainer> GameplayAbility::get_activation_granted_tags() const {
+	return activation_granted_tags;
+}
+
 void GameplayAbility::wait_delay(double seconds) {
 	handle_wait_interrupt(WaitType::Delay);
 	wait_handle.data = seconds;
@@ -714,9 +722,11 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("end_ability"), &GameplayAbility::end_ability);
 	ClassDB::bind_method(D_METHOD("set_ability_tags", "value"), &GameplayAbility::set_ability_tags);
 	ClassDB::bind_method(D_METHOD("get_ability_tags"), &GameplayAbility::get_ability_tags);
-	
+	ClassDB::bind_method(D_METHOD("set_activation_granted_tags", "value"), &GameplayAbility::set_activation_granted_tags);
+	ClassDB::bind_method(D_METHOD("get_activation_granted_tags"), &GameplayAbility::get_activation_granted_tags);
 	/** Properties */
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "AbilityTags"), "set_ability_tags", "get_ability_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_ability_tags", "get_ability_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activation_granted_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_activation_granted_tags", "get_activation_granted_tags");
 
 	
 	// /** Cancels active abilities with  any of these tags while this one is active. */

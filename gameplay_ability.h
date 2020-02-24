@@ -192,6 +192,8 @@ public:
 	Ref<GameplayTagContainer> get_target_required_tags() const;
 	void set_target_blocked_tags(const Ref<GameplayTagContainer> &value);
 	Ref<GameplayTagContainer> get_target_blocked_tags() const;
+	void set_activation_granted_tags(const Ref<GameplayTagContainer> &value);
+	Ref<GameplayTagContainer> get_activation_granted_tags() const;
 
 	/** Wait methods for asynchronous operations and ability execution. Each of those method will call a virtual _on_* where star is replace by method name. */
 
