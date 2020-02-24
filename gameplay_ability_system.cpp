@@ -41,7 +41,7 @@ const String &GameplayEvent::get_event_tag() const {
 
 void GameplayEvent::add_event_target(Node *target) {
 	if (auto system = dynamic_cast<GameplayAbilitySystem *>(target)) {
-		event_targets.push_back(target);
+		event_targets.push_back(system);
 	}
 }
 
@@ -969,7 +969,7 @@ void GameplayAbilitySystem::execute_effect(GameplayEffectNode *node) {
 	// Apply custom executions.
 	for (Ref<GameplayEffectCustomExecution> execution : effect->get_executions()) {
 		auto result = execution->execute(source, target, node, level, normalised_level);
-		auto &&modifiers = result->get_modifiers();
+		auto &&resultModifiers = result->get_modifiers();
 
 		if (modifiers.size()) {
 			apply_modifiers(node, modifiers);
