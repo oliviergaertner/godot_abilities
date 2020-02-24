@@ -971,8 +971,8 @@ void GameplayAbilitySystem::execute_effect(GameplayEffectNode *node) {
 		auto result = execution->execute(source, target, node, level, normalised_level);
 		auto &&resultModifiers = result->get_modifiers();
 
-		if (modifiers.size()) {
-			apply_modifiers(node, modifiers);
+		if (resultModifiers.size()) {
+			apply_modifiers(node, resultModifiers);
 		}
 
 		trigger_effects = result->should_trigger_additional_effects() || trigger_effects;
