@@ -187,14 +187,22 @@ bool GameplayAbility::try_activate_ability() {
 	}
 
 	active = true;
-	call_deferred(_on_activate_ability);
+	activate_ability();
 	return true;
 }
 
 void GameplayAbility::activate_ability() {
 	active = true;
 	call_deferred(_on_activate_ability);
-	source->add_active_ability(this);
+	if(source)
+	{
+		source->add_active_ability(this);
+		if(activation_granted_tags.is_valid())
+		{
+			source->add_tags(activation_granted_tags);
+		}
+	}
+	
 }
 
 void GameplayAbility::commit_ability() {
@@ -216,6 +224,10 @@ void GameplayAbility::end_ability() {
 		call_deferred(_on_end_ability, false);
 
 		source->remove_active_ability(this);
+		if(activation_granted_tags.is_valid())
+		{
+			source->remove_tags(activation_granted_tags);
+		}
 	}
 }
 
