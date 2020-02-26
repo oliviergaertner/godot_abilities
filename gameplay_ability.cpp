@@ -108,7 +108,7 @@ bool GameplayAbility::can_event_activate_ability(const Ref<GameplayEvent> &event
 }
 
 bool GameplayAbility::try_event_activate_ability(const Ref<GameplayEvent> &event) {
-	if (has_method(_on_gameplay_event)) {
+	if (can_event_activate_ability(event)) {
 		call_deferred(_on_gameplay_event, event);
 		return true;
 	} else {
