@@ -507,7 +507,7 @@ bool GameplayAbilitySystem::handle_event(const Ref<GameplayEvent> &event) {
 			ability->process_wait(WaitType::Event, event->get_event_tag());
 		} else if (ability->can_trigger(event->get_event_tag(), AbilityTrigger::GampeplayEvent)) {
 			ability->targets = event->get_event_targets();
-			result = ability->try_activate_ability() || result;
+			result = ability->try_activate_ability();
 		}
 	}
 
@@ -1101,6 +1101,7 @@ void GameplayAbilitySystem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_attribute_set", "value"), &GameplayAbilitySystem::set_attribute_set);
 	//Node *node, const Ref<GameplayEffect> &effect, int64_t stacks /*= 1*/, int64_t level /*= 1*/, double normalised_level /*= 1*/
 	ClassDB::bind_method(D_METHOD("apply_effect", "source", "effect", "stacks", "level","normalizedlevel"), &GameplayAbilitySystem::apply_effect);
+	ClassDB::bind_method(D_METHOD("handle_event", "gameplayevent"), &GameplayAbilitySystem::handle_event);
 }
 
 std::random_device GameplayAbilitySystem::rdevice;

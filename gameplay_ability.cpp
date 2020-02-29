@@ -736,9 +736,13 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_ability_tags"), &GameplayAbility::get_ability_tags);
 	ClassDB::bind_method(D_METHOD("set_activation_granted_tags", "value"), &GameplayAbility::set_activation_granted_tags);
 	ClassDB::bind_method(D_METHOD("get_activation_granted_tags"), &GameplayAbility::get_activation_granted_tags);
+	ClassDB::bind_method(D_METHOD("set_triggers", "value"), &GameplayAbility::set_triggers);
+	ClassDB::bind_method(D_METHOD("get_triggers"), &GameplayAbility::get_triggers);
 	/** Properties */
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_ability_tags", "get_ability_tags");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activation_granted_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_activation_granted_tags", "get_activation_granted_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "triggers"), "set_triggers", "get_triggers");
+
 
 	
 	// /** Cancels active abilities with  any of these tags while this one is active. */
