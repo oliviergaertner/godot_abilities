@@ -7,6 +7,7 @@
 #include "gameplay_effect_magnitude.h"
 #include "gameplay_node.h"
 #include "gameplay_tags.h"
+#include "gameplay_ability_task.h"
 
 #include <core/class_db.h>
 
@@ -15,6 +16,7 @@ void register_godot_abilities_types() {
 	ClassDB::register_class<GameplayAbilitySystem>();
 	ClassDB::register_class<GameplayEffectNode>();
 	ClassDB::register_class<GameplayAbility>();
+	ClassDB::register_class<GameplayAbilityTask>();
 
 	/** Resources */
 	ClassDB::register_class<ScalableFloat>();

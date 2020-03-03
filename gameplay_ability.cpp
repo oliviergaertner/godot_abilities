@@ -3,6 +3,7 @@
 #include "gameplay_effect.h"
 #include "gameplay_effect_magnitude.h"
 #include "gameplay_tags.h"
+#include "gameplay_ability_task.h"
 
 #include "core/engine.h"
 
@@ -228,6 +229,17 @@ void GameplayAbility::end_ability() {
 		{
 			source->remove_tags(activation_granted_tags);
 		}
+
+		for(auto task : active_tasks)
+		{
+			if(task.is_valid())
+			{
+				task->disconnect("task_completed", this);
+				task->task_completed();
+			}
+		}
+
+		active_tasks.clear();
 	}
 }
 
@@ -666,9 +678,21 @@ void GameplayAbility::_notification(int notification) {
 			break;
 		
 		case NOTIFICATION_INTERNAL_PROCESS: {
-			if (!is_queued_for_deletion() && should_ability_process) {
+			if (!is_queued_for_deletion()) {
 				auto delta = get_process_delta_time();
-				ability_process(delta);
+				if(should_ability_process)
+				{
+					ability_process(delta);
+				}
+
+				for(auto& task : active_tasks)
+				{
+					if(task.is_valid())
+					{
+						task->TickTask(delta);
+					}
+				}
+				
 			}
 		} break;
 		case NOTIFICATION_INTERNAL_PHYSICS_PROCESS: {
@@ -716,6 +740,21 @@ bool GameplayAbility::check_tag_requirement(const Ref<GameplayTagContainer> &tag
 	return tags->has_all(required);
 }
 
+void GameplayAbility::add_task(Ref<GameplayAbilityTask> task)
+{
+	if(task.is_valid())
+	{
+		active_tasks.push_back(task);
+		task->initialise(source);
+		task->connect("task_completed", this, "task_completed" );
+	}
+}
+
+ void GameplayAbility::task_completed(Ref<GameplayAbilityTask> task_completed)
+ {
+	 active_tasks.erase(task_completed);
+ }
+
 void GameplayAbility::_bind_methods() {
 	/** Virtual Methods */
 	BIND_VMETHOD(MethodInfo(_on_activate_ability));
@@ -738,6 +777,8 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_activation_granted_tags"), &GameplayAbility::get_activation_granted_tags);
 	ClassDB::bind_method(D_METHOD("set_triggers", "value"), &GameplayAbility::set_triggers);
 	ClassDB::bind_method(D_METHOD("get_triggers"), &GameplayAbility::get_triggers);
+	ClassDB::bind_method(D_METHOD("add_task", "task"), &GameplayAbility::add_task);
+	ClassDB::bind_method(D_METHOD("task_completed", "task"), &GameplayAbility::task_completed);
 	/** Properties */
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_ability_tags", "get_ability_tags");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activation_granted_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_activation_granted_tags", "get_activation_granted_tags");

@@ -5,12 +5,14 @@
 #include <core/hash_map.h>
 #include <core/resource.h>
 #include <scene/main/node.h>
+#include "gameplay_ability_task.h"
 
 class GameplayAbilitySystem;
 class GameplayTagContainer;
 class GameplayEffect;
 class GameplayEvent;
 class InputEvent;
+
 
 /** What will trigger this ability. */
 namespace AbilityTrigger {
@@ -235,13 +237,16 @@ public:
 	Array filter_targets();
 
 	GameplayAbilitySystem* get_source() { return source; }
+
+	void add_task(Ref<GameplayAbilityTask> task);
+
 protected:
 	void _notification(int notification);
 
 	void handle_wait_cancel();
 	void handle_wait_interrupt(WaitType::Type wait_type);
 	void reset_wait_handle();
-
+	void task_completed(Ref<GameplayAbilityTask> task_completed);
 private:
 	/** Ability name to distinguish from other abilities. */
 	StringName ability_name;
@@ -281,6 +286,8 @@ private:
 
 	/** Targets at the time this ability got activated. */
 	Array targets;
+
+	Vector<Ref<GameplayAbilityTask>> active_tasks;
 
 	/** Flag signifying if this ability is active. */
 	bool active = false;
