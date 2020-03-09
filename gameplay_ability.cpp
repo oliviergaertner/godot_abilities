@@ -234,7 +234,7 @@ void GameplayAbility::end_ability() {
 		{
 			if(task.is_valid())
 			{
-				task->disconnect("task_completed", this);
+				task->disconnect("task_completed", this,"task_completed");
 				task->task_completed();
 			}
 		}

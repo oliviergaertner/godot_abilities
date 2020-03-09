@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameplay_node.h"
+#include "gameplay_tags.h"
 
 #include <core/hash_map.h>
 #include <core/vector.h>
@@ -15,7 +16,6 @@ class GameplayAbility;
 class GameplayAttribute;
 class GameplayAttributeData;
 class GameplayAttributeSet;
-class GameplayTagContainer;
 class GameplayAbilitySystem;
 
 namespace UpdateAttributeOperation {

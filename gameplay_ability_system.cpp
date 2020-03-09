@@ -421,8 +421,8 @@ Ref<GameplayTagContainer> GameplayAbilitySystem::get_active_tags() const {
 }
 
 GameplayAbility *GameplayAbilitySystem::get_ability_by_name(const StringName &name) const {
-	auto ability = std::find_if(begin(abilities), end(abilities), [&](GameplayAbility *ability) {
-		return ability->get_ability_name() == name;
+	auto ability = std::find_if(begin(abilities), end(abilities), [&](GameplayAbility *inability) {
+		return inability->get_ability_name() == name;
 	});
 	return ability != end(abilities) ? *ability : nullptr;
 }
